@@ -2,7 +2,7 @@ const users = []
 
 //adduser,removeuser,getuser,getusersinroom
 
-const addUser = ({ id,username,room }) => {
+const addUser = ({ id,username,room,password }) => {
     //clean the data
     username = username.trim().toLowerCase()
     room = room.trim().toLowerCase()
@@ -11,6 +11,18 @@ const addUser = ({ id,username,room }) => {
     if(!username || !room){
         return {
             error: 'Username and room are required!'
+        }
+    }
+
+    const roompassword = users.find((user) => {
+        if(user.room === room){
+            return password
+        }
+    })
+
+    if(roompassword !== undefined && roompassword.password !== password){
+        return {
+            error: 'Wrong Password'
         }
     }
 
@@ -25,9 +37,9 @@ const addUser = ({ id,username,room }) => {
             error: 'Username is in use'
         }
     }
-
+  
     //Store user
-    const user = {id,username,room}
+    const user = {id,username,room,password}
     users.push(user)
     return {user} 
 }
